@@ -9,7 +9,7 @@ different from other synchronous blockchains.
 
 ## Features
 
-- **Deposit Tokens**: Users can deposit tokens into the contract to be ready for
+- **Deposit Tokens**: Users can deposit tokens into the canister to be ready for
   swapping.
 - **Swap Tokens**: Users can swap the tokens for each other. This is implemented
   in a very simple naive 1:1 manner. The point is just to demonstrate some
@@ -136,8 +136,8 @@ Before we can swap the tokens, they must be transferred to the swap canister.
 With ICRC-2, this is a two-step process. First we approve the transfer:
 
 ```bash
-# Approve Bob to deposit 1.00000000 of Token B, and 0.0001 extra for the
-# transfer fee
+# Alice approves the swap canister to deposit 1.00000000 of Token A, and 0.0001
+# extra for the # transfer fee
 dfx canister call --identity alice token_a icrc2_approve '
   record {
     amount = 100_010_000;
@@ -147,8 +147,8 @@ dfx canister call --identity alice token_a icrc2_approve '
   }
 '
 
-# Approve Bob to deposit 1.00000000 of Token B, and 0.0001 extra for the
-# transfer fee
+# Bob approves the swap canister to deposit 1.00000000 of Token B, and 0.0001
+# extra for the # transfer fee
 dfx canister call --identity bob token_b icrc2_approve '
   record {
     amount = 100_010_000;
@@ -203,7 +203,7 @@ dfx canister call swap balances
 ```
 
 That should show us that now Bob holds Token A, and Alice holds Token B in
-the swap contract.
+the swap canister.
 
 ## Step 6: Withdraw tokens
 
@@ -281,7 +281,7 @@ make test
 
 # Possible Improvements
 
-- Keep a history of deposits/withdrawaps/swaps.
+- Keep a history of deposits/withdrawals/swaps.
 - Add a frontend.
 
 # Known issues
@@ -289,7 +289,7 @@ make test
 - Any DeFi on the Internet Computer is experimental. It is a constantly evolving
   space, with unknown attacks, and should be treated as such.
 - Due to the nature of asynchronous inter-canister messaging on the IC, it is possible for
-  malicious token canisters to cause this swap contract to deadlock. It should
+  malicious token canisters to cause this swap canister to deadlock. It should
   only be used with trusted token canisters.
 - Currently, there are no limits on the state size of this canister. This could
   allow malicious users to spam the canister, bloating the size until it runs
